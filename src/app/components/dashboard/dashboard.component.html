@@ -3,6 +3,13 @@
     <mat-toolbar color="primary">
       <span>Ticket Dashboard</span>
     </mat-toolbar>
-    <app-area-chart></app-area-chart>
+    <div class="content">
+      <mat-grid-list [cols]="gridColumns" rowHeight="1:1" gutterSize="20px" class="responsive-grid">
+        @for (chart of charts; track chart.chartId) {
+        <app-area-chart [dataServiceMethod]="chart.dataServiceMethod" [chartTitle]="chart.title"
+          [chartId]="chart.chartId"></app-area-chart>
+        }
+      </mat-grid-list>
+    </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

@@ -2,6 +2,16 @@
   height: 100%;
 }
 
-.content {
-  padding: 16px;
+.chart-container {
+  width: 100%;
+}
+
+.responsive-grid {
+  margin: 16px;
+}
+
+@media (max-width: 768px) {
+  .responsive-grid {
+    grid-gap: 20px;
+  }
 }
