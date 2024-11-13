@@ -1,0 +1,13 @@
+
+
+<mat-form-field>
+  <mat-label>Date Range</mat-label>
+  <mat-select [(value)]="selected" (selectionChange)="onFilterChange($event)">
+    <mat-option>None</mat-option>
+    <mat-option value="last-year">Last Year</mat-option>
+    <mat-option value="last-month">Last Month</mat-option>
+    <mat-option value="last-quarter">Last Quarter</mat-option>
+  </mat-select>
+</mat-form-field>
+<canvas id="areaChart"></canvas>
+  
