@@ -1,6 +1,6 @@
 # Dashboard Chart App
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.11.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.
 
 ## Prerequisites
 Before setting up the project, ensure that the following tools are installed on your system:
@@ -9,7 +9,7 @@ Before setting up the project, ensure that the following tools are installed on 
   
   - npm (Node Package Manager): Comes bundled with Node.js. Verify the installation by running `npm -v` in your terminal.
   
-  - Angular CLI: Version 18.2.11. Install it globally using the following command:
+  - Angular CLI: Version 18. Install it globally using the following command:
   - `npm install -g @angular/cli@18.2.11`
 
 
