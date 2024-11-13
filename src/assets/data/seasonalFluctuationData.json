@@ -1,0 +1,14 @@
+[
+  { "date": "2024-01-01", "allCustomers": 150, "loyaltyCustomers": 30 },
+  { "date": "2024-02-01", "allCustomers": 130, "loyaltyCustomers": 28 },
+  { "date": "2024-03-01", "allCustomers": 170, "loyaltyCustomers": 35 },
+  { "date": "2024-04-01", "allCustomers": 160, "loyaltyCustomers": 33 },
+  { "date": "2024-05-01", "allCustomers": 180, "loyaltyCustomers": 37 },
+  { "date": "2024-06-01", "allCustomers": 200, "loyaltyCustomers": 40 },
+  { "date": "2024-07-01", "allCustomers": 220, "loyaltyCustomers": 45 },
+  { "date": "2024-08-01", "allCustomers": 210, "loyaltyCustomers": 43 },
+  { "date": "2024-09-01", "allCustomers": 190, "loyaltyCustomers": 38 },
+  { "date": "2024-10-01", "allCustomers": 200, "loyaltyCustomers": 40 },
+  { "date": "2024-11-01", "allCustomers": 220, "loyaltyCustomers": 44 },
+  { "date": "2024-12-01", "allCustomers": 240, "loyaltyCustomers": 48 }
+]
