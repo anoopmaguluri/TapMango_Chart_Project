@@ -1,4 +1,22 @@
-#areaChart {
-    max-width: 800px !important;
-    max-height: 600px !important;
+.chart-container {
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
+    text-align: center;
+
+    .chart-title {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+    }
+
+    mat-form-field {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    canvas {
+        display: block;
+        max-width: 100%;
+        height: 400px;
+    }
 }

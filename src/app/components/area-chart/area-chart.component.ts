@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, Inject, PLATFORM_ID, input } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { MatSelectModule, MatSelectChange } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -8,8 +8,9 @@ import annotationPlugin from 'chartjs-plugin-annotation';
 import 'chartjs-adapter-date-fns';
 import { subMonths, subQuarters, subYears, isWithinInterval } from 'date-fns';
 
-import { CalculateAveragePipe } from '../../pipes/calculateAveragePrice/calculate-average.pipe';
+import { AverageCalculationService } from '../../services/averageprice.service';
 import { DataService } from '../../services/data.service';
+import { Observable } from 'rxjs';
 
 export interface CustomerData {
   date: Date;
@@ -22,10 +23,14 @@ export interface CustomerData {
   templateUrl: './area-chart.component.html',
   styleUrls: ['./area-chart.component.scss'],
   standalone: true,
-  imports: [MatFormFieldModule, MatSelectModule, CalculateAveragePipe],
+  imports: [MatFormFieldModule, MatSelectModule],
 })
 
 export class AreaChartComponent implements OnInit {
+  dataServiceMethod = input<() => Observable<CustomerData[]>>();
+  chartTitle = input('Area Chart');
+  chartId = input('defaultChartId');
+
   public selected = 'last-year';
   private chart: Chart | undefined;
   private allData: CustomerData[] = [];
@@ -33,7 +38,7 @@ export class AreaChartComponent implements OnInit {
   constructor(
     private dataService: DataService,
     @Inject(PLATFORM_ID) private platformId: Object,
-    private calculateAveragePipe: CalculateAveragePipe
+    private averageCalculationService: AverageCalculationService
   ) {
     if (isPlatformBrowser(this.platformId)) {
       Chart.register(...registerables);
@@ -48,25 +53,27 @@ export class AreaChartComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.dataService.getCombinedData().subscribe((data) => {
-      this.allData = data.map((item) => ({
-        ...item,
-        date: new Date(item.date),
-      }));
-    });
-    if (isPlatformBrowser(this.platformId)) {
-      this.initializeChart();
-      this.updateChartData('last-year');
+    const dataServiceMethod = this.dataServiceMethod();
+    if (dataServiceMethod) {
+      dataServiceMethod().subscribe((data) => {
+        this.allData = data.map((item) => ({
+          ...item,
+          date: new Date(item.date),
+        }));
+        if (isPlatformBrowser(this.platformId)) {
+          this.initializeChart();
+          this.updateChartData('last-year');
+        }
+      });
+
+    } else {
+      console.error('No data service method provided.');
     }
   }
 
-  private calculateAverage(values: number[]): number {
-    const sum = values.reduce((a, b) => a + b, 0);
-    return sum / values.length;
-  }
 
   private initializeChart(): void {
-    const ctx = document.getElementById('areaChart') as HTMLCanvasElement;
+    const ctx = document.getElementById(this.chartId()) as HTMLCanvasElement;
     if (ctx) {
       this.chart = new Chart(ctx, {
         type: 'line',
@@ -160,7 +167,6 @@ export class AreaChartComponent implements OnInit {
 
   private updateChartData(filter: string): void {
     const filteredData = this.filterDataByRange(filter);
-    console.log('Filtered Data:', filteredData);
     if (this.chart) {
       this.chart.data.labels = filteredData.map((d) => d.date);
       this.chart.data.datasets[0].data = filteredData.map(
@@ -170,10 +176,10 @@ export class AreaChartComponent implements OnInit {
         (d) => d.loyaltyCustomers
       );
 
-      const allCustomersAvg = this.calculateAveragePipe.transform(
+      const allCustomersAvg = this.averageCalculationService.calculateAverage(
         filteredData.map((d) => d.allCustomers)
       );
-      const loyaltyCustomersAvg = this.calculateAveragePipe.transform(
+      const loyaltyCustomersAvg = this.averageCalculationService.calculateAverage(
         filteredData.map((d) => d.loyaltyCustomers)
       );
 
@@ -230,7 +236,6 @@ export class AreaChartComponent implements OnInit {
     const filtered = this.allData.filter((data) =>
       isWithinInterval(data.date, { start: startDate, end: endDate })
     );
-    console.log('Filtered Data:', filtered); // Verify filtering logic
     return filtered;
   }
 }
