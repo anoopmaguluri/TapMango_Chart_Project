@@ -1,14 +1,15 @@
 import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-
 import {MatSelectModule, MatSelectChange} from '@angular/material/select';
 import {MatFormFieldModule} from '@angular/material/form-field';
 
 import { Chart, registerables } from 'chart.js';
 import annotationPlugin from 'chartjs-plugin-annotation';
 import 'chartjs-adapter-date-fns';
-import { DataService } from '../../services/data.service';
 import { subMonths, subQuarters, subYears, isWithinInterval } from 'date-fns';
+
+import { CalculateAveragePipe } from '../../pipes/calculateAveragePrice/calculate-average.pipe';
+import { DataService } from '../../services/data.service';
 
 export interface CustomerData {
   date: Date;
@@ -21,7 +22,7 @@ export interface CustomerData {
   templateUrl: './area-chart.component.html',
   styleUrls: ['./area-chart.component.scss'],
   standalone: true,
-  imports: [MatFormFieldModule, MatSelectModule],
+  imports: [MatFormFieldModule, MatSelectModule, CalculateAveragePipe],
 })
 
 export class AreaChartComponent implements OnInit {
@@ -29,23 +30,25 @@ export class AreaChartComponent implements OnInit {
   private chart: Chart | undefined;
   private allData: CustomerData[] = [];
 
-  constructor(private dataService: DataService, @Inject(PLATFORM_ID) private platformId: Object) {
-
-    if (isPlatformBrowser(this.platformId)) {
-      Chart.register(...registerables);
+  constructor(
+    private dataService: DataService, 
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private calculateAveragePipe: CalculateAveragePipe
+  ) {
       if (isPlatformBrowser(this.platformId)) {
-      Chart.register(...registerables, annotationPlugin);
-      import('chartjs-plugin-zoom').then((module) => {
-        const zoomPlugin = module.default;
-        Chart.register(zoomPlugin);
-      });
+          Chart.register(...registerables);
+          if (isPlatformBrowser(this.platformId)) {
+          Chart.register(...registerables, annotationPlugin);
+          import('chartjs-plugin-zoom').then((module) => {
+            const zoomPlugin = module.default;
+            Chart.register(zoomPlugin);
+          });
+        }  
+      }
     }
-      
-    }
-  }
 
   ngOnInit(): void {
-    this.dataService.getSeasonalFluctuationData().subscribe((data) => {
+    this.dataService.getCombinedData().subscribe((data) => {
       this.allData = data.map((item) => ({
         ...item,
         date: new Date(item.date),
@@ -167,10 +170,10 @@ export class AreaChartComponent implements OnInit {
         (d) => d.loyaltyCustomers
       );
 
-      const allCustomersAvg = this.calculateAverage(
+      const allCustomersAvg = this.calculateAveragePipe.transform(
         filteredData.map((d) => d.allCustomers)
       );
-      const loyaltyCustomersAvg = this.calculateAverage(
+      const loyaltyCustomersAvg = this.calculateAveragePipe.transform(
         filteredData.map((d) => d.loyaltyCustomers)
       );
 
