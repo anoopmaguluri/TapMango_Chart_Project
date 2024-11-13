@@ -11,8 +11,8 @@ import { MatSelectModule } from '@angular/material/select';
   selector: 'app-dashboard',
   standalone: true,
   imports: [
-    CommonModule, 
-    AreaChartComponent, 
+    CommonModule,
+    AreaChartComponent,
     MatSidenavModule,
     MatToolbarModule,
     MatGridListModule,
@@ -21,4 +21,4 @@ import { MatSelectModule } from '@angular/material/select';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent {}
+export class DashboardComponent { }

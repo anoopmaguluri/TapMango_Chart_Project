@@ -8,4 +8,4 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {}
+export class AppComponent { }

@@ -1,16 +1,62 @@
 [
-  { "date": "2024-01-01", "allCustomers": 100, "loyaltyCustomers": 20 },
-  { "date": "2024-02-01", "allCustomers": 120, "loyaltyCustomers": 25 },
-  { "date": "2024-03-01", "allCustomers": 140, "loyaltyCustomers": 30 },
-  { "date": "2024-04-01", "allCustomers": 160, "loyaltyCustomers": 35 },
-  { "date": "2024-05-01", "allCustomers": 180, "loyaltyCustomers": 40 },
-  { "date": "2024-06-01", "allCustomers": 200, "loyaltyCustomers": 45 },
-  { "date": "2024-07-01", "allCustomers": 220, "loyaltyCustomers": 50 },
-  { "date": "2024-08-01", "allCustomers": 240, "loyaltyCustomers": 55 },
-  { "date": "2024-09-01", "allCustomers": 260, "loyaltyCustomers": 60 },
-  { "date": "2024-10-01", "allCustomers": 280, "loyaltyCustomers": 65 },
-  { "date": "2024-11-01", "allCustomers": 300, "loyaltyCustomers": 70 },
-  { "date": "2024-12-01", "allCustomers": 320, "loyaltyCustomers": 75 }
+  {
+    "date": "2024-01-01",
+    "allCustomers": 100,
+    "loyaltyCustomers": 20
+  },
+  {
+    "date": "2024-02-01",
+    "allCustomers": 120,
+    "loyaltyCustomers": 25
+  },
+  {
+    "date": "2024-03-01",
+    "allCustomers": 140,
+    "loyaltyCustomers": 30
+  },
+  {
+    "date": "2024-04-01",
+    "allCustomers": 160,
+    "loyaltyCustomers": 35
+  },
+  {
+    "date": "2024-05-01",
+    "allCustomers": 180,
+    "loyaltyCustomers": 40
+  },
+  {
+    "date": "2024-06-01",
+    "allCustomers": 200,
+    "loyaltyCustomers": 45
+  },
+  {
+    "date": "2024-07-01",
+    "allCustomers": 220,
+    "loyaltyCustomers": 50
+  },
+  {
+    "date": "2024-08-01",
+    "allCustomers": 240,
+    "loyaltyCustomers": 55
+  },
+  {
+    "date": "2024-09-01",
+    "allCustomers": 260,
+    "loyaltyCustomers": 60
+  },
+  {
+    "date": "2024-10-01",
+    "allCustomers": 280,
+    "loyaltyCustomers": 65
+  },
+  {
+    "date": "2024-11-01",
+    "allCustomers": 300,
+    "loyaltyCustomers": 70
+  },
+  {
+    "date": "2024-12-01",
+    "allCustomers": 320,
+    "loyaltyCustomers": 75
+  }
 ]
-
-  

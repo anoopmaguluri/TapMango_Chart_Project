@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import {MatSelectModule, MatSelectChange} from '@angular/material/select';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatSelectModule, MatSelectChange } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { Chart, registerables } from 'chart.js';
 import annotationPlugin from 'chartjs-plugin-annotation';
@@ -31,21 +31,21 @@ export class AreaChartComponent implements OnInit {
   private allData: CustomerData[] = [];
 
   constructor(
-    private dataService: DataService, 
+    private dataService: DataService,
     @Inject(PLATFORM_ID) private platformId: Object,
     private calculateAveragePipe: CalculateAveragePipe
   ) {
+    if (isPlatformBrowser(this.platformId)) {
+      Chart.register(...registerables);
       if (isPlatformBrowser(this.platformId)) {
-          Chart.register(...registerables);
-          if (isPlatformBrowser(this.platformId)) {
-          Chart.register(...registerables, annotationPlugin);
-          import('chartjs-plugin-zoom').then((module) => {
-            const zoomPlugin = module.default;
-            Chart.register(zoomPlugin);
-          });
-        }  
+        Chart.register(...registerables, annotationPlugin);
+        import('chartjs-plugin-zoom').then((module) => {
+          const zoomPlugin = module.default;
+          Chart.register(zoomPlugin);
+        });
       }
     }
+  }
 
   ngOnInit(): void {
     this.dataService.getCombinedData().subscribe((data) => {
@@ -65,7 +65,7 @@ export class AreaChartComponent implements OnInit {
     return sum / values.length;
   }
 
- private initializeChart(): void {
+  private initializeChart(): void {
     const ctx = document.getElementById('areaChart') as HTMLCanvasElement;
     if (ctx) {
       this.chart = new Chart(ctx, {
@@ -115,7 +115,7 @@ export class AreaChartComponent implements OnInit {
                 display: true
               },
               border: {
-                dash :[4,3]
+                dash: [4, 3]
               }
             },
           },
@@ -158,7 +158,7 @@ export class AreaChartComponent implements OnInit {
     }
   }
 
- private updateChartData(filter: string): void {
+  private updateChartData(filter: string): void {
     const filteredData = this.filterDataByRange(filter);
     console.log('Filtered Data:', filteredData);
     if (this.chart) {
@@ -209,28 +209,28 @@ export class AreaChartComponent implements OnInit {
   }
 
   private filterDataByRange(range: string): CustomerData[] {
-  const endDate = new Date();
-  let startDate: Date;
+    const endDate = new Date();
+    let startDate: Date;
 
-  switch (range) {
-    case 'last-month':
-      startDate = subMonths(endDate, 1);
-      break;
-    case 'last-quarter':
-      startDate = subQuarters(endDate, 1);
-      break;
-    case 'last-year':
-      startDate = subYears(endDate, 1);
-      break;
-    default:
-      startDate = subMonths(endDate, 1);
-      break;
+    switch (range) {
+      case 'last-month':
+        startDate = subMonths(endDate, 1);
+        break;
+      case 'last-quarter':
+        startDate = subQuarters(endDate, 1);
+        break;
+      case 'last-year':
+        startDate = subYears(endDate, 1);
+        break;
+      default:
+        startDate = subMonths(endDate, 1);
+        break;
+    }
+
+    const filtered = this.allData.filter((data) =>
+      isWithinInterval(data.date, { start: startDate, end: endDate })
+    );
+    console.log('Filtered Data:', filtered); // Verify filtering logic
+    return filtered;
   }
-
-  const filtered = this.allData.filter((data) =>
-    isWithinInterval(data.date, { start: startDate, end: endDate })
-  );
-  console.log('Filtered Data:', filtered); // Verify filtering logic
-  return filtered;
-}
 }

@@ -11,7 +11,7 @@ import { parseISO } from 'date-fns';
 export class DataService {
   private basePath = 'assets/data/';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getSteadyGrowthData(): Observable<CustomerData[]> {
     return this.http.get<any[]>(`${this.basePath}steadyGrowthData.json`).pipe(
